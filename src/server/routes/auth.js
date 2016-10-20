@@ -7,17 +7,17 @@ const passport = require('../auth/local');
 // New user creation route
 router.post('/register', (req, res, next) => {
   return authHelpers.createUser(req, res)
-    .then((user) => { handleLogin(res, user[0]); })
-    .then(() => { handleResponse(res, 200, 'register successful!'); })
-    .catch((err) => { handleResponse(res, 500, 'register failed'); });
+    .then((user) => { processLogin(res, user[0]); })
+    .then(() => { processResponse(res, 200, 'register successful!'); })
+    .catch((err) => { processResponse(res, 500, 'register failed'); });
 });
 
 // Login route
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) { handleResponse(res, 500, 'login error'); }
-    if (!user) { handleResponse(res, 404, 'User not found'); }
-    if (user) { handleResponse(res, 200, 'login successful!'); }
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { processResponse(res, 500, 'login error'); }
+    else if (!user) { processResponse(res, 404, 'Incorrect usernam or password'); }
+    if (user) { processResponse(res, 200, 'login successful!'); }
   })(req, res, next);
 });
 
@@ -27,7 +27,7 @@ router.post('/login', (req, res, next) => {
 // Helper functions
 // ----------------
 
-function handleLogin(req, user) {
+function processLogin(req, user) {
   return new Promise((resolve, reject) => {
     req.login(user, (err) => {
       if (err) reject(err);
@@ -36,7 +36,7 @@ function handleLogin(req, user) {
   });
 }
 
-function handleResponse(res, code, statusMsg) {
+function processResponse(res, code, statusMsg) {
   res.status(code).json({ status: statusMsg });
 }
 

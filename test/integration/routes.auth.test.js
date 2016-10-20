@@ -42,6 +42,7 @@ describe('routes : auth', () => {
 
   // Login route test
   describe('POST /auth/login', () => {
+
     it('should login a user', (done) => {
       chai.request(server)
         .post('/auth/login')
@@ -55,6 +56,40 @@ describe('routes : auth', () => {
           res.status.should.eql(200);
           res.type.should.eql('application/json');
           res.body.status.should.eql('login successful!');
+          done();
+        });
+    });
+
+    it('should not login an unregistered user', (done) => {
+      chai.request(server)
+        .post('/auth/login')
+        .send({
+          username: 'titi',
+          password: 'totopwd'
+        })
+        .end((err, res) => {
+          should.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(404);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('Incorrect usernam or password');
+          done();
+        });
+    });
+
+    it('should not login if the pwd in incorrect', (done) => {
+      chai.request(server)
+        .post('/auth/login')
+        .send({
+          username: 'toto',
+          password: 'badpwd'
+        })
+        .end((err, res) => {
+          should.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(404);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('Incorrect usernam or password');
           done();
         });
     });
