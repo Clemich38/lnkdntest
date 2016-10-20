@@ -21,6 +21,12 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+// Logout route
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  processResponse(res, 200, 'logout successful!');
+});
+
 
 
 // ----------------
