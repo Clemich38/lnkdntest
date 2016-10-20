@@ -3,10 +3,15 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
+const passportStub = require('passport-stub');
 
 const server = require('../../src/server/app');
 const knex = require('../../src/server/db/connection');
+
+
+chai.use(chaiHttp);
+passportStub.install(server);
+
 
 describe('routes : auth', () => {
 
@@ -17,6 +22,7 @@ describe('routes : auth', () => {
   });
 
   afterEach(() => {
+    passportStub.logout();
     return knex.migrate.rollback();
   });
 
@@ -97,7 +103,13 @@ describe('routes : auth', () => {
 
   // Logout route test
   describe('GET /auth/logout', () => {
+
+    // Test logout if 1 user logged in
     it('should logout a user', (done) => {
+      passportStub.login({
+        username: 'toto',
+        password: 'totopwd'
+      });
       chai.request(server)
         .get('/auth/logout')
         .end((err, res) => {
@@ -106,6 +118,20 @@ describe('routes : auth', () => {
           res.status.should.eql(200);
           res.type.should.eql('application/json');
           res.body.status.should.eql('logout successful!');
+          done();
+        });
+    });
+
+    // Test logout if no user logged in
+    it('should throw an error if a user is not logged in', (done) => {
+      chai.request(server)
+        .get('/auth/logout')
+        .end((err, res) => {
+          should.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(401);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('no user logged in!');
           done();
         });
     });

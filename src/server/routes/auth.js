@@ -22,7 +22,7 @@ router.post('/login', (req, res, next) => {
 });
 
 // Logout route
-router.get('/logout', (req, res, next) => {
+router.get('/logout', authHelpers.pleaseLogin, (req, res, next) => {
   req.logout();
   processResponse(res, 200, 'logout successful!');
 });

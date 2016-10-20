@@ -18,8 +18,15 @@ function createUser(req) {
     .returning('*');
 }
 
+// Please login info method
+function pleaseLogin(req, res, next) {
+  if (!req.user) return res.status(401).json({status: 'no user logged in!'});
+  return next();
+}
+
 module.exports = {
   comparePass,
-  createUser
+  createUser,
+  pleaseLogin
 };
 
