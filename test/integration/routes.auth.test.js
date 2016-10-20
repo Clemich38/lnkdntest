@@ -12,7 +12,8 @@ describe('routes : auth', () => {
 
   beforeEach(() => {
     return knex.migrate.rollback()
-      .then(() => { return knex.migrate.latest(); });
+      .then(() => { return knex.migrate.latest(); })
+      .then(() => { return knex.seed.run(); });
   });
 
   afterEach(() => {
@@ -33,7 +34,27 @@ describe('routes : auth', () => {
           res.redirects.length.should.eql(0);
           res.status.should.eql(200);
           res.type.should.eql('application/json');
-          res.body.status.should.eql('success');
+          res.body.status.should.eql('register successful!');
+          done();
+        });
+    });
+  });
+
+  // Login route test
+  describe('POST /auth/login', () => {
+    it('should login a user', (done) => {
+      chai.request(server)
+        .post('/auth/login')
+        .send({
+          username: 'toto',
+          password: 'totopwd'
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(200);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('login successful!');
           done();
         });
     });
