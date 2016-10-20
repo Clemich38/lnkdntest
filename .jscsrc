@@ -25,7 +25,7 @@
   "disallowTrailingWhitespace": true,
   "disallowTrailingComma": true,
   "disallowKeywords": [ "with" ],
-  "disallowMultipleLineBreaks": true,
+  "disallowMultipleLineBreaks": false,
   "requireSpaceBeforeBlockStatements": true,
   "requireParenthesesAroundIIFE": true,
   "requireSpacesInConditionalExpression": true,
