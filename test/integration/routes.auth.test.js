@@ -12,7 +12,7 @@ describe('routes : auth', () => {
 
   beforeEach(() => {
     return knex.migrate.rollback()
-    .then(() => { return knex.migrate.latest(); });
+      .then(() => { return knex.migrate.latest(); });
   });
 
   afterEach(() => {
@@ -21,22 +21,22 @@ describe('routes : auth', () => {
 
   // Resgister route test
   describe('POST /auth/register', () => {
-  it('should register a new user', (done) => {
-    chai.request(server)
-    .post('/auth/register')
-    .send({
-      username: 'clement',
-      password: 'clementpwd'
-    })
-    .end((err, res) => {
-      should.not.exist(err);
-      res.redirects.length.should.eql(0);
-      res.status.should.eql(200);
-      res.type.should.eql('application/json');
-      res.body.status.should.eql('success');
-      done();
+    it('should register a new user', (done) => {
+      chai.request(server)
+        .post('/auth/register')
+        .send({
+          username: 'clement',
+          password: 'clementpwd'
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(200);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('success');
+          done();
+        });
     });
   });
-});
 
 });
