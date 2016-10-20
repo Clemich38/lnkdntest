@@ -137,4 +137,40 @@ describe('routes : auth', () => {
     });
   });
 
+  // User route tests
+  describe('GET /user', () => {
+
+    // Test user route if user logged in
+    it('should return a success', (done) => {
+      passportStub.login({
+        username: 'toto',
+        password: 'totopwd'
+      });
+      chai.request(server)
+        .get('/user')
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(200);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('success');
+          done();
+        });
+    });
+
+    // Test user route if user not logged in
+    it('should throw an error if a user is not logged in', (done) => {
+      chai.request(server)
+        .get('/user')
+        .end((err, res) => {
+          should.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(401);
+          res.type.should.eql('application/json');
+          res.body.status.should.eql('no user logged in!');
+          done();
+        });
+    });
+  });
+
 });
