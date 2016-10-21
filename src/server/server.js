@@ -3,7 +3,7 @@
   'use strict';
 
   const app = require('./app');
-  const debug = require('debug');
+  const debug = require('debug')('lnkdntest:server');
   const http = require('http');
 
   const port = normalizePort(process.env.PORT || '3000');
