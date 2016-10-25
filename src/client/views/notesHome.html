@@ -1,37 +1,50 @@
 <div class="container" ng-controller="homeController">
 	<div align="right">
-		<a ng-click='loginRedirection()' class="btn btn-primary btn-sm">Login</a>
-		<a ng-click='logout()' class="btn btn-danger btn-sm" ng-controller="logoutController">Logout</a>
+		<a ng-if="userLoggedIn == false" ng-click='loginRedirection()' class="btn btn-primary btn-sm">Login</a>
+		<a ng-if="userLoggedIn == false" ng-click='registerRedirection()' class="btn btn-info btn-sm">Register</a>
+		<a ng-if="userLoggedIn == true" ng-click='logout()' class="btn btn-danger btn-sm" ng-controller="logoutController">Logout</a>
 	</div>
 
-	<div class="header">
-		Get User {{ message }}! <br> Welcome {{ userName }}!
+	<div ng-if="userLoggedIn == false">
+		<h1 class="lead">{{ message }}! </h1>
 	</div>
 
-
-	<div>
-		<h1 class="lead">New note</h1>
-	</div>
-
-	<form>
-		<div class="form-group">
-			<input type="title" class="form-control input-sm" placeholder="Note Title..." ng-model="formData.title">
-			<textarea class="span6 form-control input-sm" rows="3" placeholder="Note Text..." ng-model="formData.text"></textarea>
-			<!--<input type="text" class="form-control input-sm" placeholder="Note Text..." ng-model="formData.text">-->
+	<div ng-if="userLoggedIn">
+		<div>
+			<h1 class="lead">Welcome {{ userName }}!</h1>
 		</div>
-		<button type="submit" class="btn btn-primary btn-sm" ng-click="createNote()">Add Note</button>
-	</form>
 
-	<div>
-		<h1 class="lead">Your Notes</h1>
+		<div>
+			<h1 class="lead">Your Notes <span class="btn btn-info btn-sm button-right" ng-click="showNew()">Add New Note</span></h1>
+		</div>
+
+		<form ng-if="showNewNote">
+			<div class="form-group">
+				<input type="title" class="form-control input-sm" placeholder="Note Title..." ng-model="formData.title">
+				<textarea class="span6 form-control input-sm" rows="3" placeholder="Note Text..." ng-model="formData.text"></textarea>
+			</div>
+			<button type="submit" class="btn btn-info btn-sm" ng-click="createNote()">Add Note</button>
+		</form>
+
+		<div ng-repeat="note in notesData" class="list-group">
+			<a class="list-group-item" ng-click="viewNoteDetail(note.id)">
+				<div>
+					{{ note.title }}
+					<span class="badge">v{{note.revision}}</span>
+					<button class="btn btn-danger btn-xs button-right" ng-click="deleteNote(note.id)" align="right">Delete</button>
+				</div>
+				<div ng-if="note.id == openedNote">
+					{{ note.text }}</br>
+					<button class="btn btn-default btn-xs" ng-click="showEditNote(note.id)">Edit</button>
+					<!--<button class="btn btn-default btn-xs" ng-click="closeNoteDetail()">Close</button>-->
+				</div>
+				<div class="form-group" ng-if="note.id == editedNote">
+					<input type="text" class="form-control" name="text" ng-model="inputData.text" ng-value="note.text">
+					</br>
+					<button class="btn btn-default btn-xs" ng-click="editNote(note.id)">Save</button>
+				</div>
+			</a>
+
+		</div>
 	</div>
-
-	<ul ng-repeat="note in notesData">
-		<li>
-			&nbsp;{{ note.title }} : {{ note.text }} authorId:{{ note.author_id }} v{{note.revision}}
-			<button class="btn btn-danger btn-sm" ng-click="deleteNote(note.id)">Delete</button>
-			<!--<input type="text" class="form-control input-lg" placeholder="Update Note Text..." ng-model="inputData.text">
-          <button class="btn btn-primary btn-lg" ng-click="updateNote(note.id)">Update Note</button>-->
-		</li>
-	</ul>
 </div>
