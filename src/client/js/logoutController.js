@@ -1,14 +1,15 @@
 angular.module('notesApp')
 
-  .controller('logoutController', ['$scope', '$location', 'AuthService',
-    function ($scope, $location, AuthService) {
+  .controller('logoutController', ['$scope', '$location', '$route', 'AuthService',
+    function ($scope, $location, $route, AuthService) {
 
       $scope.logout = function () {
 
         // call logout from service
         AuthService.logout()
           .then(function () {
-            $location.path('/login');
+            $route.reload();
+            // $location.path('/login');
           });
 
       };
