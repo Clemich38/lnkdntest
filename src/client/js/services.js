@@ -93,7 +93,6 @@ angular.module('notesApp')
 
           // return promise object
           return deferred.promise;
-
         },
 
         // Logout user
@@ -117,7 +116,6 @@ angular.module('notesApp')
 
           // return promise object
           return deferred.promise;
-
         },
 
         // Register user
@@ -144,9 +142,7 @@ angular.module('notesApp')
 
           // return promise object
           return deferred.promise;
-
         }
-
       });
 
     }]);
