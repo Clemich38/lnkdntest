@@ -11,8 +11,6 @@ router.get('/user', authHelpers.pleaseLogin, (req, res, next) => {
 
 // get all notes
 router.get('/user/notes', notes.getAll);
-// get single note
-// router.get('/user/notes/:id', notes.getSingle);
 // add new note
 router.post('/user/notes', notes.addNew);
 // update single note
