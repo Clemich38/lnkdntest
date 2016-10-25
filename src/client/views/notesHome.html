@@ -1,11 +1,37 @@
-<h1>Notes App Home Page!</h1>
+<div class="container" ng-controller="homeController">
+	<div align="right">
+		<a ng-click='loginRedirection()' class="btn btn-primary btn-sm">Login</a>
+		<a ng-click='logout()' class="btn btn-danger btn-sm" ng-controller="logoutController">Logout</a>
+	</div>
 
-<div ng-controller="logoutController">
-	<a ng-click='logout()' class="btn btn-default">Logout</a>
-</div>
+	<div class="header">
+		Get User {{ message }}! <br> Welcome {{ userName }}!
+	</div>
 
-<div class="header">
-	<h1>status</h1>
-	Get User {{ message }}! <br>
-	Welcome {{ userName }}!
+
+	<div>
+		<h1 class="lead">New note</h1>
+	</div>
+
+	<form>
+		<div class="form-group">
+			<input type="title" class="form-control input-sm" placeholder="Note Title..." ng-model="formData.title">
+			<textarea class="span6 form-control input-sm" rows="3" placeholder="Note Text..." ng-model="formData.text"></textarea>
+			<!--<input type="text" class="form-control input-sm" placeholder="Note Text..." ng-model="formData.text">-->
+		</div>
+		<button type="submit" class="btn btn-primary btn-sm" ng-click="createNote()">Add Note</button>
+	</form>
+
+	<div>
+		<h1 class="lead">Your Notes</h1>
+	</div>
+
+	<ul ng-repeat="note in notesData">
+		<li>
+			&nbsp;{{ note.title }} : {{ note.text }} authorId:{{ note.author_id }} v{{note.revision}}
+			<button class="btn btn-danger btn-sm" ng-click="deleteNote(note.id)">Delete</button>
+			<!--<input type="text" class="form-control input-lg" placeholder="Update Note Text..." ng-model="inputData.text">
+          <button class="btn btn-primary btn-lg" ng-click="updateNote(note.id)">Update Note</button>-->
+		</li>
+	</ul>
 </div>
