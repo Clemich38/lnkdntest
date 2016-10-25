@@ -7,7 +7,7 @@ const router = express.Router();
 // GET home page
 router.get('/', (req, res, next) => {
   res.sendFile(path.join(
-    __dirname, '..', '..', 'client', 'views', 'index.html'));
+    __dirname, '..', '..', 'client', 'index.html'));
 });
 
 // router.get('/', function (req, res, next) {
