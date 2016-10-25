@@ -16,7 +16,7 @@ router.get('/user/notes', notes.getAll);
 // add new note
 router.post('/user/notes', notes.addNew);
 // update single note
-// router.put('/user/notes/:id', notes.updateSingle);
+router.put('/user/notes/:id', notes.updateSingle);
 // delete a single note
 router.delete('/user/notes/:id', notes.deleteSingle);
 

@@ -5,22 +5,11 @@ module.exports = {
   // get all notes
   getAll(req, res) {
     // knex.select().table('notes')
-    knex('notes').where('author_id', req.user.id)
+    knex('notes').where('author_id', req.user.id).orderBy('id', 'desc')
       .then(function (notes) {
         res.json(notes);
       });
   },
-
-  // // get single note
-  // getSingle(req, res) {
-  //   Note.find({
-  //     where: {
-  //       id: req.params.id
-  //     }
-  //   }).then(function (notes) {
-  //     res.json(notes);
-  //   });
-  // },
 
   // add new note
   addNew(req, res) {
@@ -35,23 +24,22 @@ module.exports = {
     });
   },
 
-  // // update single note
-  // updateSingle(req, res) {
-  //   Note.find({
-  //     where: {
-  //       id: req.params.id
-  //     }
-  //   }).then(function (note) {
-  //     if (note) {
-  //       note.updateAttributes({
-  //         title: req.body.title,
-  //         text: req.body.text
-  //       }).then(function (note) {
-  //         res.send(note);
-  //       });
-  //     }
-  //   });
-  // },
+  // update single note
+  updateSingle(req, res) {
+    knex('notes')
+      .where('id', req.params.id)
+      .update({
+        text: req.body.text
+      })
+      .then(
+      knex('notes')
+        .where('id', req.params.id)
+        .increment('revision', 1)
+        .then(function (note) {
+          res.json(note);
+        })
+      );
+  },
 
   // delete a single note
   deleteSingle(req, res) {
