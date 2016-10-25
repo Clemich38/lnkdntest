@@ -3,12 +3,12 @@ angular.module('notesApp', ['ngRoute'])
   .run(function ($rootScope, $location, $route, AuthService) {
     $rootScope.$on('$routeChangeStart',
       function (event, next, current) {
-        AuthService.getUserStatus()
-          .then(function () {
-            if (AuthService.isLoggedIn() === false) {
-              $location.path('/login');
-            }
-          });
+        AuthService.getUserStatus();
+          // .then(function () {
+          //   if (AuthService.isLoggedIn() === false) {
+          //     $location.path('/login');
+          //   }
+          // });
       });
   })
 
