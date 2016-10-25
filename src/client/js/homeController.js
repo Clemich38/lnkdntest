@@ -107,6 +107,11 @@ angular.module('notesApp')
         $scope.editedNote = null;
       };
 
+      // Cancel edit a note
+      $scope.cancelEditNote = function(noteID) {
+        $scope.editedNote = null;
+      };
+
       // Show edit a note
       $scope.showEditNote = function(noteID) {
         $scope.editedNote = noteID;
