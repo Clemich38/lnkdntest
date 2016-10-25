@@ -9,7 +9,6 @@ angular.module('notesApp')
         AuthService.logout()
           .then(function () {
             $route.reload();
-            // $location.path('/login');
           });
 
       };
