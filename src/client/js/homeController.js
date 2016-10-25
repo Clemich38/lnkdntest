@@ -9,9 +9,13 @@ angular.module('notesApp')
 
       $scope.message = "no message";
       $scope.userName = "";
+      $scope.userLoggedIn = false;
       $scope.formData = {};
       $scope.inputData = {};
       $scope.notesData = {};
+      $scope.editedNote = null;
+      $scope.openedNote = null;
+      $scope.showNewNote = false;
 
       // Get user
       $http({
@@ -25,6 +29,7 @@ angular.module('notesApp')
           AuthService.getUserStatus()
             .then(function () {
               $scope.userName = AuthService.getUserName();
+              $scope.userLoggedIn = AuthService.isLoggedIn();
               console.log('homepage: ' + $scope.userName);
             });
         })
@@ -48,7 +53,7 @@ angular.module('notesApp')
       // -------------------------
 
       // Get all notes
-      $scope.getAllNotes = () => {
+      $scope.getAllNotes = function() {
         $http.get('/user/notes')
           .success((data) => {
             $scope.notesData = data;
@@ -60,11 +65,12 @@ angular.module('notesApp')
       };
 
       // Create a new todo
-      $scope.createNote = () => {
+      $scope.createNote = function() {
         $http.post('/user/notes', $scope.formData)
           .success((data) => {
             $scope.formData = {};
             console.log(data);
+            $scope.showNewNote = false;
             // get all notes
             $scope.getAllNotes();
           })
@@ -73,8 +79,8 @@ angular.module('notesApp')
           });
       };
 
-      // Delete a todo
-      $scope.deleteNote = (noteID) => {
+      // Delete a note
+      $scope.deleteNote = function(noteID) {
         $http.delete('/user/notes/' + noteID)
           .success((data) => {
             console.log(data);
@@ -86,9 +92,49 @@ angular.module('notesApp')
           });
       };
 
+      // Edit a note
+      $scope.editNote = function(noteID) {
+        $http.put('/user/notes/' + noteID, $scope.inputData)
+          .success((data) => {
+            console.log(data);
+            // get all notes
+            $scope.getAllNotes();
+          })
+          .error((data) => {
+            console.log('Error: ' + data);
+          });
 
+        $scope.editedNote = null;
+      };
+
+      // Show edit a note
+      $scope.showEditNote = function(noteID) {
+        $scope.editedNote = noteID;
+      };
+
+      // Show new note form
+      $scope.showNew = function() {
+        $scope.showNewNote = true;
+      };
+
+      // View note detail
+      $scope.viewNoteDetail = function(noteID) {
+          $scope.openedNote = noteID;
+      };
+
+      // Close note detail
+      $scope.closeNoteDetail = function() {
+          $scope.openedNote = null;
+      };
+
+      // Redirect to login page
       $scope.loginRedirection = function () {
         $location.path('/login');
+      };
+
+      // Redirect to register page
+      $scope.registerRedirection = function () {
+        $location.path('/register');
       };
 
     }]);
