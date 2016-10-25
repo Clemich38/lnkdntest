@@ -14,10 +14,14 @@ router.post('/register', (req, res, next) => {
 
 // Login route
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', function(err, user, info) {
+  passport.authenticate('local', function (err, user, info) {
     if (err) { processResponse(res, 500, 'login error'); }
     else if (!user) { processResponse(res, 404, 'Incorrect usernam or password'); }
-    if (user) { processResponse(res, 200, 'login successful!'); }
+    if (user) {
+      processLogin(req, user)
+    .then(() => { processResponse(res, 200, 'login successful!'); })
+    .catch((err) => { processResponse(res, 500, 'login failed'); });
+    }
   })(req, res, next);
 });
 
@@ -27,6 +31,19 @@ router.get('/logout', authHelpers.pleaseLogin, (req, res, next) => {
   processResponse(res, 200, 'logout successful!');
 });
 
+// Authentication status
+router.get('/status', function (req, res) {
+  if (!req.isAuthenticated()) {
+    return res.status(200).json({
+      status: false,
+      username: 'no user logged in!'
+    });
+  }
+  res.status(200).json({
+    status: true,
+    username: req.user.username
+  });
+});
 
 
 // ----------------
