@@ -3,7 +3,11 @@
 # Web Application managing a list of notes
 
 Using:
-Node.js, Express, AngularJS, Bootstrap, PostgreSQL
+ - Node.js
+ - Express
+ - AngularJS
+ - Bootstrap
+ - PostgreSQL
 
 Also used:
  - ORM: knex
