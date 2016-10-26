@@ -122,6 +122,11 @@ angular.module('notesApp')
         $scope.showNewNote = true;
       };
 
+      // Show new note form
+      $scope.hideNew = function() {
+        $scope.showNewNote = false;
+      };
+
       // View note detail
       $scope.viewNoteDetail = function(noteID) {
           $scope.openedNote = noteID;

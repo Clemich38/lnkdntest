@@ -1,45 +1,60 @@
 <div class="container" ng-controller="homeController">
+
+	<!-- Login - Register - Logout buttons -->
 	<div align="right">
 		<a ng-if="userLoggedIn == false" ng-click='loginRedirection()' class="btn btn-primary btn-sm">Login</a>
 		<a ng-if="userLoggedIn == false" ng-click='registerRedirection()' class="btn btn-info btn-sm">Register</a>
 		<a ng-if="userLoggedIn == true" ng-click='logout()' class="btn btn-danger btn-sm" ng-controller="logoutController">Logout</a>
 	</div>
 
+	<!-- If no user logged in -> Show error message -->
 	<div ng-if="userLoggedIn == false">
 		<h1 class="lead">{{ message }}! </h1>
 	</div>
 
+
+	<!-- If user logged in -> Show welcom message and notes list-->
 	<div ng-if="userLoggedIn">
+
+		<!-- Header infos -->
 		<div>
 			<h1 class="lead">Welcome {{ userName }}!</h1>
 		</div>
-
 		<div>
 			<h1 class="lead">Your Notes <span class="btn btn-info btn-sm button-right" ng-click="showNew()">Add New Note</span></h1>
 		</div>
 
+		<!-- New note Form -->
 		<form ng-if="showNewNote">
 			<div class="form-group">
 				<input type="title" class="form-control input-sm" placeholder="Note Title..." ng-model="formData.title">
 				<textarea class="span6 form-control input-sm" rows="3" placeholder="Note Text..." ng-model="formData.text"></textarea>
 			</div>
-			<button type="submit" class="btn btn-info btn-sm" ng-click="createNote()">Add Note</button>
+			<button class="btn btn-info btn-sm" ng-click="createNote()" type="submit">Add Note</button>
+			<button class="btn btn-default btn-sm" ng-click="hideNew()">Cancel</button>
 		</form>
 
+		<!-- Notes List -->
 		<div ng-repeat="note in notesData" class="list-group">
 			<a class="list-group-item list-group-item-info" ng-click="viewNoteDetail(note.id)">
+
+				<!-- Note title -->
 				<div>
 					{{ note.title }}
 					<span class="badge">v{{note.revision}}</span>
 					<button class="btn btn-danger btn-xs button-right" ng-click="deleteNote(note.id)" align="right">Delete</button>
 				</div>
+
+				<!-- Note details -->
 				<div ng-if="note.id == openedNote">
 					{{ note.text }}</br>
 					<button class="btn btn-default btn-xs" ng-click="showEditNote(note.id)">Edit</button>
 					<!--<button class="btn btn-default btn-xs" ng-click="closeNoteDetail()">Close</button>-->
 				</div>
+
+				<!-- Note edition form -->
 				<div class="form-group" ng-if="note.id == editedNote">
-					<input type="text" class="form-control" name="text" ng-model="inputData.text" ng-value="note.text">
+					<textarea type="text" class="form-control" name="text" rows="3" ng-model="inputData.text" ng-value="note.text"></textarea>
 					</br>
 					<button class="btn btn-default btn-xs" ng-click="editNote(note.id)">Save</button>
 					<button class="btn btn-default btn-xs" ng-click="cancelEditNote(note.id)">Cancel</button>
