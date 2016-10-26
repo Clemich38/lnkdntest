@@ -42,22 +42,24 @@
 				<div>
 					{{ note.title }}
 					<span class="badge">v{{note.revision}}</span>
-					<button class="btn btn-danger btn-xs button-right" ng-click="deleteNote(note.id)" align="right">Delete</button>
+					<button class="btn btn-danger btn-xs button-right" ng-click="deleteNote(note.id); $event.stopPropagation();" align="right">Delete</button>
 				</div>
 
 				<!-- Note details -->
-				<div ng-if="note.id == openedNote" class="multiline">
-					{{ note.text }}</br>
-					<button class="btn btn-default btn-xs" ng-click="showEditNote(note.id)">Edit</button>
-					<!--<button class="btn btn-default btn-xs" ng-click="closeNoteDetail()">Close</button>-->
+				<div ng-if="note.id == openedNote">
+					<div class="multiline">
+						{{ note.text }}</br>
+					</div>
+					<button class="btn btn-default btn-xs" ng-click="showEditNote(note.id); $event.stopPropagation();">Edit</button>
+					<button class="btn btn-default btn-xs" ng-click="closeNoteDetail(); $event.stopPropagation();">Close</button>
 				</div>
 
 				<!-- Note edition form -->
 				<div class="form-group" ng-if="note.id == editedNote">
 					<textarea class="form-control" name="text" rows="3" ng-init="inputData.text=note.text" ng-model="inputData.text"></textarea>
 					</br>
-					<button class="btn btn-default btn-xs" ng-click="editNote(note.id)">Save</button>
-					<button class="btn btn-default btn-xs" ng-click="cancelEditNote(note.id)">Cancel</button>
+					<button class="btn btn-default btn-xs" ng-click="editNote(note.id); $event.stopPropagation();">Save</button>
+					<button class="btn btn-default btn-xs" ng-click="cancelEditNote(note.id); $event.stopPropagation();">Cancel</button>
 				</div>
 			</a>
 
