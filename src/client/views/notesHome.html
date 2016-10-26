@@ -46,7 +46,7 @@
 				</div>
 
 				<!-- Note details -->
-				<div ng-if="note.id == openedNote">
+				<div ng-if="note.id == openedNote" class="multiline">
 					{{ note.text }}</br>
 					<button class="btn btn-default btn-xs" ng-click="showEditNote(note.id)">Edit</button>
 					<!--<button class="btn btn-default btn-xs" ng-click="closeNoteDetail()">Close</button>-->
@@ -54,7 +54,7 @@
 
 				<!-- Note edition form -->
 				<div class="form-group" ng-if="note.id == editedNote">
-					<textarea type="text" class="form-control" name="text" rows="3" ng-model="inputData.text" ng-value="note.text"></textarea>
+					<textarea class="form-control" name="text" rows="3" ng-init="inputData.text=note.text" ng-model="inputData.text"></textarea>
 					</br>
 					<button class="btn btn-default btn-xs" ng-click="editNote(note.id)">Save</button>
 					<button class="btn btn-default btn-xs" ng-click="cancelEditNote(note.id)">Cancel</button>
