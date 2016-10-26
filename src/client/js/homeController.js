@@ -135,6 +135,18 @@ angular.module('notesApp')
       // Close note detail
       $scope.closeNoteDetail = function() {
           $scope.openedNote = null;
+          $scope.editedNote = null;
+      };
+
+      // Toggle note detail
+      $scope.toggleNoteDetail = function(noteID) {
+        if(($scope.openedNote !== null) || ($scope.editedNote !== null)) {
+          $scope.openedNote = null;
+          $scope.editedNote = null;
+        }
+        else {
+          $scope.openedNote = noteID;
+        }
       };
 
       // Redirect to login page
