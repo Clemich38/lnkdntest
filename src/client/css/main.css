@@ -1,5 +1,9 @@
+.jumbotron {
+    padding: 1em inherit;
+}
+
 .horizontal-center {
-  text-align: center;  /* align the inline(-block) elements horizontally */
+  text-align: center;
 }
 
 .button-right { 
@@ -9,5 +13,11 @@
 .multiline {
     white-space: pre-line;
     margin: 1em 0;
+}
+
+.centeritem {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
